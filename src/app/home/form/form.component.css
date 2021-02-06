@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+}
+
+.image-upload input::before {
+    content: 'Upload an Image';
+    color: black;
+    position: absolute;
+    top: 40%;
+    left: auto;
+}
+
+.image-upload .valid-image::before {
+    color: white;
+}
+
+.image-upload input {
+    color: transparent;
+    height: 20vh;
+    width: 10vw;
+    border: 1px solid black;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 5px;
+    position: relative;
+    background: 50% 50% no-repeat;
+    background-size: contain;
+}
+
+.valid-img::before {
+    color: white;
+}
+
+.image-upload input::-webkit-file-upload-button {
+    visibility: hidden;
+    display: none;
+}
+
+.image-upload {
+    display: flex;
+    justify-content: center;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+    color: #dc3545;
+}

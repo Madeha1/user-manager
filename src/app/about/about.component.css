@@ -1,0 +1,14 @@
+div {
+    width: 100%;
+    color: #fff;
+    background-color: #007bff;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+h1 {
+    margin-top: 10vh;
+}

@@ -1,0 +1,17 @@
+<h1>Welocome To User Maneger</h1>
+<div class='container'>
+    <div class='row justify-content-around'>
+        <div class="left-side col-lg-5">
+            <app-form></app-form>
+        </div>
+        <div class="right-side col-lg-5">
+            <div class="form-inline my-4">
+                <input class="form-control mr-2 w-75" type="search" placeholder="Search for a user" aria-label="Search" [(ngModel)]="searchText">
+                <button class=" btn btn-outline-success " type="submit" (click)=search()>Search</button>
+            </div>
+            <div *ngFor="let user of users | filter:filterTerm">
+                <span>{{user.id}}  {{user.name}} {{user.email}} {{user.role}} {{user.status}}</span>
+            </div>
+        </div>
+    </div>
+</div>
