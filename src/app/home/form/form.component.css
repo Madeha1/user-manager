@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.image-upload input::before {
+#noimage-input::before {
     content: 'Upload an Image';
     color: black;
     position: absolute;

@@ -7,11 +7,22 @@
         <div class="right-side col-lg-5">
             <div class="form-inline my-4">
                 <input class="form-control mr-2 w-75" type="search" placeholder="Search for a user" aria-label="Search" [(ngModel)]="searchText">
-                <button class=" btn btn-outline-success " type="submit" (click)=search()>Search</button>
             </div>
-            <div *ngFor="let user of users | filter:filterTerm">
-                <span>{{user.id}}  {{user.name}} {{user.email}} {{user.role}} {{user.status}}</span>
+            <div class="card w-100 mb-3" style="max-width: 540px;" *ngFor="let user of users | filter:searchText">
+                <div class="row no-gutters">
+                    <div class="col-md-4 flex-center">
+                        <!--not sure  if it's working [src]='user.img' -->
+                        <img src='https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png' class="card-img">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2 class="card-title">{{user.name}}</h2>
+                            <p class="card-text">{{user.email}}</p>
+                            <p class="card-text p-0">Role: {{user.role}}</p>
+                            <p class="card-text p-0">Status: {{user.status}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>

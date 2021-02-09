@@ -1,7 +1,10 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class=" form-row image-upload">
         <div class="form-group">
-            <input [style.backgroundImage]="'url('+ imageUrl +')'" type="file" id="upload" formControlName="img" (change)="selectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.img.errors} " />
+            <input *ngIf="selectedImage; else noImage" [style.backgroundImage]="'url('+ selectedImage +')'" type="file" formControlName="img" (change)="selectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.img.errors} " />
+            <ng-template #noImage>
+                <input id='noimage-input' type="file" formControlName="img" (change)="selectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.img.errors} " />
+            </ng-template>
             <div *ngIf="submitted && f.img.errors " class="invalid-feedback ">
                 <div *ngIf="f.img.errors.required ">Image is required</div>
             </div>

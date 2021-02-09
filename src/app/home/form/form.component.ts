@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AbstractControl, FormControl} from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User, UsersService } from "../../users.service";
+import { AngularFireStorage } from '@angular/fire/storage';
+
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -8,10 +13,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class FormComponent{
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder , private usersService:UsersService,private storage: AngularFirestore) { }
   userForm: FormGroup;
   submitted = false;
-  imageUrl;
+  selectedImage;
+  readerImage;
 
   get f() { return this.userForm.controls;}
 
@@ -27,6 +33,7 @@ export class FormComponent{
 
   onSubmit(){
     this.submitted = true;
+    this.uploadImage();
     // stop here if form is invalid
     if (this.userForm.valid) {
         this.addUser(this.userForm.value);
@@ -36,30 +43,24 @@ export class FormComponent{
         this.userForm.get('role').reset();
         this.userForm.get('status').reset();
         this.userForm.get('img').reset();
+        this.selectedImage = '';
     }
   }
-  //should be shared data
-  users = [
-    {
-      'id':1,
-      'name':'madeha',
-      'img' : 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
-      'email':'madehatahboub@gmail.com',
-      'role': 'student',
-      'status': 's',
-      'creationDate': Date.parse('1-12-2021')
-    }
-  ];
+  
+  uploadImage(){
+    // let storageRef = firebase.storage().ref();
+
+  }
 
   addUser(formValues :any){
-    console.log(formValues);
     let name :string = formValues.name;
     let img : string = formValues.img;
     let email:string = formValues.email;
     let role : string = formValues.role;
     let status: string = formValues.status;
-    this.users.push({
-      'id': this.users.length,
+
+    this.usersService.AddUser({
+      $key: 1, 
       'name': name,
       'img' : img,
       'email': email,
@@ -82,9 +83,9 @@ export class FormComponent{
 		
 		var reader = new FileReader();
 		reader.readAsDataURL(event.target.files[0]);
-		
+		this.readerImage = event.target.files[0];
 		reader.onload = (_event) => {
-			this.imageUrl = reader.result; 
+			this.selectedImage = reader.result; 
 		}
 	}
 }

@@ -8,5 +8,6 @@ import { UsersService } from "./users.service";
   providers: [UsersService]
 })
 export class AppComponent {
+  constructor(private usersService:UsersService){}
   title = 'userManeger';
 }

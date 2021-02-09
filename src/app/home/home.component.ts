@@ -1,33 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { User, UsersService } from "../users.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private usersService:UsersService){}
+  users: User[];
 
   ngOnInit(): void {
+    this.usersService.GetUsersList().valueChanges().subscribe(data => {});
+    console.log('test');
+    let s = this.usersService.GetUsersList(); 
+    s.snapshotChanges().subscribe(data => {
+      this.users = [];
+      data.forEach(item => {
+        let a = item.payload.toJSON(); 
+        a['$key'] = item.key;
+        this.users.push(a as User);
+      })
+    })
   }
-  searchText:string;
-  filterTerm: string;
-  users = [
-    {
-      'id':1,
-      'name':'madeha',
-      'img' : 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
-      'email':'madehatahboub@gmail.com',
-      'role': 'student',
-      'status': 's',
-      'creationDate': '12-6-2021'
-    }
-  ];
 
-  search(){
-    this.filterTerm = this.searchText;
-  }
-  
+  searchText:string = '';
 }
