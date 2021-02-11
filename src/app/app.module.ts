@@ -13,11 +13,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule } from '@angular/forms';
 
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { HttpClientModule } from '@angular/common/http';  
 import { AngularFireModule } from '@angular/fire';  
 import { AngularFireDatabaseModule } from '@angular/fire/database';  
 import { AngularFirestoreModule } from '@angular/fire/firestore';  
-import { environment } from 'src/environments/environment';  
+import { environment } from 'src/environments/environment';
+import { EditFormComponent } from './users/edit-form/edit-form.component';  
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { environment } from 'src/environments/environment';
     UsersComponent,
     AboutComponent,
     FormComponent,
+    EditFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,  
     AngularFireModule.initializeApp(environment.firebaseConfig),  
     AngularFireDatabaseModule,  
-    AngularFirestoreModule  
+    AngularFirestoreModule ,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

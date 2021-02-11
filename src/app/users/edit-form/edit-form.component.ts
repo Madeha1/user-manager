@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AbstractControl, FormControl} from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,29 +6,29 @@ import { User, UsersService } from "../../users.service";
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 
-
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  selector: 'app-edit-form',
+  templateUrl: './edit-form.component.html',
+  styleUrls: ['./edit-form.component.css']
 })
-export class FormComponent{
+export class EditFormComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder , private usersService:UsersService,private storage: AngularFireStorage) { }
   userForm: FormGroup;
   submitted = false;
   imgSrc;
   selectedImage :any = null;
+  @Input() user: any;
 
   get f() { return this.userForm.controls;}
 
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-    name : new FormControl('', [Validators.required , Validators.pattern('[a-zA-Z]+')]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    role: new FormControl('', [Validators.required]),
-    status: new FormControl('', [Validators.required]),
-    img: new FormControl('', [Validators.required]),
+    name : new FormControl(this.user.name, [Validators.required , Validators.pattern('[a-zA-Z]+')]),
+    email: new FormControl(this.user.email, [Validators.required, Validators.email]),
+    role: new FormControl(this.user.role, [Validators.required]),
+    status: new FormControl(this.user.status, [Validators.required]),
+    img: new FormControl(this.user.img, [Validators.required]),
     })
   }
 
@@ -42,27 +42,11 @@ export class FormComponent{
           finalize(()=>{
             fileRef.getDownloadURL().subscribe((url)=> {
               this.userForm.value['img'] = url;
-              console.log(this.userForm.value);
               this.addUser(this.userForm.value);
-              this.resetForm();
             })
           })
         ).subscribe()
     }
-  }
-
-  resetForm(){
-    this.userForm.reset();
-    this.userForm.setValue({
-      name: '',
-      email: '',
-      role: '',
-      status: '',
-      img: '',
-    });
-    this.imgSrc = '';
-    this.submitted = false;
-    this.selectedImage = null;
   }
 
   addUser(formValues :any){

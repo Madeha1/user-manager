@@ -22,7 +22,7 @@ export class UsersService {
   
   // Create User
   AddUser(user: User) {
-    var newPostRef = this.usersRef.push({
+    this.usersRef.push({
       name: user.name,
       img: user.img,
       email : user.email,
@@ -61,7 +61,5 @@ export class UsersService {
       this.userRef = this.db.object('users-list/'+key);
       this.userRef.remove();
     }
-    
-  
   
 }

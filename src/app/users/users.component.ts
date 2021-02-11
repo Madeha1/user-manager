@@ -12,7 +12,19 @@ export class UsersComponent implements OnInit {
   constructor(private usersService:UsersService,private modalService: NgbModal ){}
   users: User[];
   closeResult = '';
-
+  showModal: boolean;
+  selectedUser;
+  show(user)
+  {
+    this.showModal = true; // Show-Hide Modal Check
+    this.selectedUser = user;
+  }
+  //Bootstrap Modal Close event
+  hide()
+  {
+    this.showModal = false;
+  }
+  
   ngOnInit(): void {
     this.usersService.GetUsersList().valueChanges().subscribe(data => {});
     console.log('test');
