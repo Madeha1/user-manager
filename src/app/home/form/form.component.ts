@@ -42,9 +42,10 @@ export class FormComponent{
           finalize(()=>{
             fileRef.getDownloadURL().subscribe((url)=> {
               this.userForm.value['img'] = url;
-              console.log(this.userForm.value);
+              console.log('test1');
               this.addUser(this.userForm.value);
               this.resetForm();
+              console.log('test2');
             })
           })
         ).subscribe()
