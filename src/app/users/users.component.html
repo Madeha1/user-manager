@@ -1,19 +1,3 @@
-<!-- Creates the bootstrap modal where the image will appear -->
-<div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Register</h4>
-            </div>
-            <div class="modal-body">
-                <app-edit-form [user]="selectedUser"></app-edit-form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="hide()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <h1>Users Data</h1>
 <table class="table">
     <thead>
@@ -37,10 +21,57 @@
             <td>{{user.role}}</td>
             <td>{{user.status}}</td>
             <td>{{user.creationDate | date:'mediumDate'}}</td>
-            <td class="row ">
+            <td class="row">
                 <button class="btn btn-outline-danger col-5 mr-1 p-1 " (click)='deleteUser(user)'>Delete</button>
-                <button class="btn btn-outline-primary col-5 ml-1 p-1 " (click)="show(user) ">Edit</button>
+                <button class="btn btn-outline-primary col-5 ml-1 p-1 " (click)="editMode(user)">Edit</button>
             </td>
         </tr>
     </tbody>
 </table>
+<div *ngIf="editable" class='pop'>
+    <h3 class='py-2'>Update User Data</h3>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm.value)">
+        <div class="form-row">
+            <div class="form-group col-md-6 ">
+                <label>Name</label>
+                <input type="text " class="form-control " formControlName="name" placeholder="Name" [ngClass]="{'is-invalid': submitted && f.name.errors} " />
+                <div *ngIf="submitted && f.name.errors " class="invalid-feedback ">
+                    <div *ngIf="f.name.errors.required else name ">User name is required</div>
+                    <ng-template #name>
+                        <div *ngIf="f.name.errors.pattern ">name should contain letters only</div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label>Email</label>
+                <input type="email" class="form-control " placeholder="example@domain.com" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors} " />
+                <div *ngIf="submitted && f.email.errors " class="invalid-feedback ">
+                    <div *ngIf="f.email.errors.required else email ">Email is required</div>
+                    <ng-template #email>
+                        <div *ngIf="f.email.errors.email ">Email is not valid</div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="form-row ">
+            <div class="form-group col-md-6 ">
+                <label>Role</label>
+                <input type="text" class="form-control " placeholder="Role" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors} " />
+                <div *ngIf="submitted && f.role.errors " class="invalid-feedback ">
+                    <div *ngIf="f.role.errors.required ">Role is required</div>
+                </div>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label>Status</label>
+                <input type="text" class="form-control " placeholder="Status" formControlName="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors} " />
+                <div *ngIf="submitted && f.status.errors " class="invalid-feedback ">
+                    <div *ngIf="f.status.errors.required ">Status is required</div>
+                </div>
+            </div>
+        </div>
+        <div class='d-flex justify-content-start'>
+            <button class="btn btn-outline-danger col-2 mr-1 p-1" (click)='cancle()'>Cancle</button>
+            <button type="submit" class="btn btn-outline-primary col-2 ml-1 p-1">Submit</button>
+        </div>
+    </form>
+</div>

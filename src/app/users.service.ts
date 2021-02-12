@@ -46,6 +46,7 @@ export class UsersService {
   
     // Update User Object
     UpdateUser(user: User) {
+      console.log(user);
       this.userRef.update({
         name: user.name,
         img: user.img,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User, UsersService } from '../users.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -9,22 +10,15 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private usersService:UsersService,private modalService: NgbModal ){}
+  constructor(private usersService:UsersService,private modalService: NgbModal,private formBuilder:FormBuilder ){}
   users: User[];
   closeResult = '';
-  showModal: boolean;
-  selectedUser;
-  show(user)
-  {
-    this.showModal = true; // Show-Hide Modal Check
-    this.selectedUser = user;
-  }
-  //Bootstrap Modal Close event
-  hide()
-  {
-    this.showModal = false;
-  }
-  
+  editable= false;
+  userForm: FormGroup;
+  submitted = false;
+
+  get f() { return this.userForm.controls;}
+
   ngOnInit(): void {
     this.usersService.GetUsersList().valueChanges().subscribe(data => {});
     console.log('test');
@@ -42,28 +36,36 @@ export class UsersComponent implements OnInit {
   deleteUser(user) {
     if (window.confirm('Are sure you want to delete this student ?'))
       this.usersService.DeleteUser(user.$key) // Using Delete student API to delete student.
-      // this.toastr.success(user.name + ' successfully deleted!'); // Alert message will show up when student successfully deleted.
-  }
-  updateUser(newuser){
-    this.usersService.UpdateUser(newuser);
   }
 
-  //functions for pupup
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+
+  //Edit Form
+  userId;
+  editMode(user){
+    this.userForm = this.formBuilder.group({
+      name : new FormControl(user.name, [Validators.required , Validators.pattern('[a-zA-Z]+')]),
+      email: new FormControl(user.email, [Validators.required, Validators.email]),
+      role: new FormControl(user.role, [Validators.required]),
+      status: new FormControl(user.status, [Validators.required]),
+      img: new FormControl(user.img, [Validators.required]),
+      creationDate: new FormControl(user.creationDate),
+    })
+    this.editable = true;
+    this.userId = user.$key;
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
+  cancle(){
+    this.editable = false;
+    this.userId = '';
+  }
+
+  onSubmit(newUserValue){
+    this.submitted = true;
+    if(this.userForm.valid){
+    this.usersService.GetUser(this.userId);
+    this.usersService.UpdateUser(newUserValue);
+    this.editable = false;
     }
   }
+
 }

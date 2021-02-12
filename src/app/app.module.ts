@@ -19,7 +19,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';  
 import { AngularFirestoreModule } from '@angular/fire/firestore';  
 import { environment } from 'src/environments/environment';
-import { EditFormComponent } from './users/edit-form/edit-form.component';  
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { EditFormComponent } from './users/edit-form/edit-form.component';
     UsersComponent,
     AboutComponent,
     FormComponent,
-    EditFormComponent,
   ],
   imports: [
     BrowserModule,
