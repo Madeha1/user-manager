@@ -1,27 +1,18 @@
-# UserManeger
+# UserManager
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.<br />
+This project is part of PSEU training.
 
-## Development server
+## Description :
+The application is for managing users (create,edit,delete and search). It's connected to firebase realtime database<br />
+it contains 3 navbar items(home, users, about) each represents a separate componante 
+### 1. Home Componante: 
+it contains 2 sections :<br />
+first section is a form to add new user and the second is a search box to quikly find a user.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### 2. Users Componante:
+In this section, there is a table that contains all users information with two buttons for each :edit and delete.<br />
+When the edit button is clicked a form will popup. and delete button will delete the user from database.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### 3. About Component:
+It includes few lines about how the project was implemented.
